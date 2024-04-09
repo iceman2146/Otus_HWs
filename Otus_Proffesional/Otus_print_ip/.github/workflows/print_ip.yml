@@ -1,0 +1,54 @@
+name: 'Homework_ip_printer'
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-documentation:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    needs: [build_linux]
+    steps:
+    - uses: actions/checkout@v1 
+    # Build the HTML documentation
+    - name: Doxygen Action
+      uses: mattnotmitt/doxygen-action@v1.1.0
+      with:
+          doxyfile-path: ./Doxyfile
+          working-directory: . 
+    # Deploy the HTML documentation to GitHub Pages
+    - name: GH Pages Deployment
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./documentation/
+        enable_jekyll: false
+        allow_empty_commit: false
+        force_orphan: true
+        publish_branch: gh-pages
+
+  build_linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      
+      - name: Set PATCH_VERSION
+        run: cmake . -DPATCH_VERSION=${{ github.run_number }}
+      
+      - name: Running cmake 
+        run: cmake --build . --config Release
+      
+      - name: Create package
+        run: cmake --build . --target package --config Release
+        
+      - name: Upload Linux artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: uploads
+          path: Homework_5-0.0.${{ github.run_number }}-Linux.deb    
+        
+ 
