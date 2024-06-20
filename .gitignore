@@ -1,6 +1,7 @@
 # Created by https://www.toptal.com/developers/gitignore/api/windows,linux,c++,cmake,visualstudiocode,executable,doxygen
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,linux,c++,cmake,visualstudiocode,executable,doxygen
-
+*/build
+*.json
 ### C++ ###
 # Prerequisites
 *.d
