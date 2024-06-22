@@ -1,9 +1,6 @@
 #include <iostream>
 #include <limits>
-#include "baseStatistic.h"
-#include "min_max.h"
-#include "arSrednee_and_sredneKvadraticheskoe.h"
-#include "procentil.h"
+#include "statistic_includes.h"
 
 int main()
 {
@@ -15,8 +12,8 @@ int main()
 	statistics[1] = new Max{};
 	statistics[2] = new Mean{};
 	statistics[3] = new Std{};
-	statistics[4] = new Pct90{};  
-	statistics[5] = new Pct95{};  
+	statistics[4] = new Pct90{};
+	statistics[5] = new Pct95{};
 	double val = 0;
 	while (std::cin >> val)
 	{

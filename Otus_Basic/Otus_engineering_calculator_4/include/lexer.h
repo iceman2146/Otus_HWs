@@ -1,77 +1,87 @@
 // OTUS C++ Basic course homework skeleton.
 // Lexer interface
-/* Здесь описывется лексический анализатор.
-    на вход лексического анализатора подаются символы, 
-    на выходе получаем токены, которые впоследствии 
-    используются синтаксическим анализатором.
-    Общий пример: на вход запускаем 123, 3 символа, на выходе целое число, 
-    или на вход запускаем +, - ... на выходе оператор
-    Алгоритм работы: основа работы лексера - конечный автомат основная логика описана методом next_token(),
-    сосотояния описаны перечислением State */
+/* 
+  Здесь описывется лексический анализатор.
+  на вход лексического анализатора подаются символы,
+  на выходе получаем токены, которые впоследствии
+  используются синтаксическим анализатором.
+  Общий пример: на вход запускаем 123, 3 символа, на выходе целое число,
+  или на вход запускаем +, - ... на выходе оператор
+  Алгоритм работы: основа работы лексера - конечный автомат основная логика описана методом next_token(),
+  внутреннее состояния описано перечислением State
+  Для разбора некоторых токенов, например чисел и имен, 
+  лексеру необходимо считать из входного потока несколько символов. 
+  Так для получения значения числа из символьного представления необходимо читая
+  цифры слева направо постоянно накапливать результат их в аккумуляторе умножая
+  текущий результат на 10 (сдвиг влево) и прибавляя новую цифру.
+*/
 #pragma once
 
 #include <istream>
 #include <string>
 
-class Lexer {
-  public:
-    enum class Token {
-        Number,
-        Operator,
-        End,
-        Lbrace,
-        Rbrace,
-        Name,
-        undefined
-    };
+class Lexer
+{
+public:
+  enum class Token
+  {
+    Number,
+    Operator,
+    End,
+    Lbrace,
+    Rbrace,
+    Name,
+    undefined
+  };
 
-    explicit Lexer(std::istream &in);
+  explicit Lexer(std::istream &in);
 
-    Lexer(const Lexer &other) = delete;
+  Lexer(const Lexer &other) = delete;
 
-    Lexer &operator=(const Lexer &other) = delete;
+  Lexer &operator=(const Lexer &other) = delete;
 
-    Token next_token();
+  Token next_token();
 
-    int get_number() const { return number_; }
+  int get_number() const { return number_; }
 
-    std::string get_operator() const { return operator_; }
+  std::string get_operator() const { return operator_; }
 
-    std::string get_name() const { return name_; }
+  std::string get_name() const { return name_; }
 
-  protected:
-    bool isbrace(char ch) const;
+protected:
+  bool isbrace(char ch) const;
 
-    bool isoperator(char ch) const;
+  bool isoperator(char ch) const;
 
-  private:
-    enum class State {
-        Empty,
-        ReadNumber,
-        ReadName,
-        End,
-    };
-    char next_char();
-    bool end() const;
+private:
+  enum class State
+  {
+    Empty,
+    ReadNumber,
+    ReadName,
+    End,
+  };
+  char next_char();
+  bool end() const;
 
-    State state_;
-    std::string name_;
-    int number_;
-    std::string operator_;
-    char ch_;
-    std::istream &in_;
+  State state_;
+  std::string name_;
+  int number_;
+  std::string operator_;
+  char ch_;
+  std::istream &in_;
 };
 
 inline Lexer::Lexer(std::istream &in)
     : state_(State::Empty), number_(0), in_(in)
 {
-    next_char();
+  next_char();
 }
 
 inline char Lexer::next_char()
 {
-    in_.get(ch_);
-    return ch_;
+  in_.get(ch_);
+  return ch_;
 }
 
 inline bool Lexer::end() const { return in_.eof() || ch_ == '\n'; }
@@ -80,5 +90,5 @@ inline bool Lexer::isbrace(char ch) const { return ch == '(' || ch == ')'; }
 
 inline bool Lexer::isoperator(char ch) const
 {
-    return ch == '+' || ch == '-' || ch == '*' || ch == '/';
+  return ch == '+' || ch == '-' || ch == '*' || ch == '/';
 }

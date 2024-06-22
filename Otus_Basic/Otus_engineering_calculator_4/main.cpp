@@ -7,14 +7,16 @@
 #include "lexer.h"
 #include "parser.h"
 
-int main() {
-    
+int main()
+{
+
     Lexer lexer(std::cin);
     Parser parser(lexer);
 
     ASTNode *ast = parser.parse();
-    if (ast) {
-         ast->print(std::cout);
+    if (ast)
+    {
+        ast->print(std::cout);
     }
 
     return 0;

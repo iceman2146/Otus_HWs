@@ -3,12 +3,15 @@ cmake_minimum_required(VERSION 3.5)
 project(Statist)
 
 add_executable(statistics 
-statistics.cpp
-"arSrednee_and_sredneKvadraticheskoe.h"
-"baseStatistic.h"
-"min_max.h"
-"procentil.h"
+main.cpp
+src/mean.cpp
+src/std.cpp
+src/min.cpp
+src/max.cpp
+src/procentil90.cpp
+src/procentil95.cpp
 )
 
+target_include_directories(statistics PRIVATE include)
 set_target_properties(statistics PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
 

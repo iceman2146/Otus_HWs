@@ -5,7 +5,6 @@
 
 #include <cctype>
 
-
 Lexer::Token Lexer::next_token()
 {
     for (;;)
