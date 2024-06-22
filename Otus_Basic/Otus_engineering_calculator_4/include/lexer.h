@@ -1,6 +1,13 @@
 // OTUS C++ Basic course homework skeleton.
 // Lexer interface
-
+/* Здесь описывется лексический анализатор.
+    на вход лексического анализатора подаются символы, 
+    на выходе получаем токены, которые впоследствии 
+    используются синтаксическим анализатором.
+    Общий пример: на вход запускаем 123, 3 символа, на выходе целое число, 
+    или на вход запускаем +, - ... на выходе оператор
+    Алгоритм работы: основа работы лексера - конечный автомат основная логика описана методом next_token(),
+    сосотояния описаны перечислением State */
 #pragma once
 
 #include <istream>
@@ -56,13 +63,13 @@ class Lexer {
 };
 
 inline Lexer::Lexer(std::istream &in)
-    : state_(State::Empty)
-    , number_(0)
-    , in_(in) {
+    : state_(State::Empty), number_(0), in_(in)
+{
     next_char();
 }
 
-inline char Lexer::next_char() {
+inline char Lexer::next_char()
+{
     in_.get(ch_);
     return ch_;
 }
@@ -71,6 +78,7 @@ inline bool Lexer::end() const { return in_.eof() || ch_ == '\n'; }
 
 inline bool Lexer::isbrace(char ch) const { return ch == '(' || ch == ')'; }
 
-inline bool Lexer::isoperator(char ch) const {
+inline bool Lexer::isoperator(char ch) const
+{
     return ch == '+' || ch == '-' || ch == '*' || ch == '/';
 }

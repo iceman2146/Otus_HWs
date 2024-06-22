@@ -1,4 +1,4 @@
-#include "astnode.hpp"
+#include "astnode.h"
 
 ASTNode::ASTNode(const std::string &repr)
     : repr_(repr)

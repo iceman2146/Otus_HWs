@@ -2,8 +2,8 @@
 
 #include <istream>
 
-#include "astnode.hpp"
-#include "lexer.hpp"
+#include "astnode.h"
+#include "lexer.h"
 
 class Parser {
   public:

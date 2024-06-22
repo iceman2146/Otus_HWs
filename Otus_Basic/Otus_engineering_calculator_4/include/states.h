@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "astnode.hpp"
+#include "astnode.h"
 
 class Add : public ASTNode {
 public:

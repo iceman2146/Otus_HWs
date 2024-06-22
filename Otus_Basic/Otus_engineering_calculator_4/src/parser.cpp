@@ -1,6 +1,6 @@
-#include "parser.hpp"
+#include "parser.h"
 
-#include "states.hpp"
+#include "states.h"
 
 
 using Token = Lexer::Token;

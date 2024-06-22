@@ -2,9 +2,15 @@ cmake_minimum_required(VERSION 3.8)
 
 project(03.homework)
 
-add_executable(
-	Game
-	Game.cpp
-    ZagadaiChislo.cpp
-	HighScore.cpp
-)
+include_directories(include)
+
+add_executable(Game main.cpp src/game.cpp src/quess_number.cpp src/high_score.cpp)
+
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL
+                                            "GNU")
+  target_compile_options(Game PRIVATE -g -Wall -Wextra -Werror -pedantic)
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+  target_compile_options(Game PRIVATE /EHsc /W4 /WX)
+endif()
+
+target_compile_features(Game PUBLIC cxx_std_17)

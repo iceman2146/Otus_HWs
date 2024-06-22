@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 3.5)
 
 project(hello_world CXX)
 
-add_executable(hello_world main.cpp example.cpp example.h
+add_executable(hello_world main.cpp 
+                           example.cpp example.h 
                            todo_move_me_out.cpp todo_move_me_out.h)
 
 target_compile_features(hello_world PUBLIC cxx_std_17)
