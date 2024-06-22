@@ -8,27 +8,10 @@ class IStatistics;
 class Mean : public IStatistics
 {
 public:
-	Mean() : sum{0}, numCounter{0}
-	{
-	}
+	Mean();
 
-	void update(double next) override
-	{
-
-		sum += next;
-
-		++numCounter;
-	}
-
-	double eval() const override
-	{
-		return sum / numCounter;
-	}
-
-	const char *name() const override
-	{
-		return "mean";
-	}
+	void update(double next) override;
+	double eval() const override;
 
 private:
 	double sum;

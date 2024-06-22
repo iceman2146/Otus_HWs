@@ -7,27 +7,10 @@ class IStatistics;
 class Min : public IStatistics
 {
 public:
-	Min() : m_min{std::numeric_limits<double>::min()}
-	{
-	}
+	Min();
 
-	void update(double next) override
-	{
-		if (next < m_min)
-		{
-			m_min = next;
-		}
-	}
-
-	double eval() const override
-	{
-		return m_min;
-	}
-
-	const char *name() const override
-	{
-		return "min";
-	}
+	void update(double next);
+	double eval() const override;
 
 private:
 	double m_min;
