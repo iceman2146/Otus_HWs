@@ -2,6 +2,7 @@
 
 #include <cctype>
 #include <cstdlib>
+#include <iomanip>
 
 #include "extra_data.h"
 #include "extra_functions.h"
@@ -30,7 +31,7 @@ int main(int argc, char *argv[])
     //
     result = count_sum_map(argc, argv, time_sum_map);
 
-    std::cout << "dT in one thread " << time_one_thread / 1000000 << " s\n";
+    std::cout << "dT in one thread " <<std::setprecision(8)<< time_one_thread / 1000000 << " s\n";
     std::cout << "dT with mutex    " << time_mutex / 1000000 << " s\n";
     std::cout << "dT sum map  " << time_sum_map / 1000000 << " s\n";
 }
