@@ -1,7 +1,10 @@
+#include <iostream>
+#include <cstdint>
+#include "termcolor.hpp"
 #pragma once
 
 template <typename T>
-class SequenceContainer
+class Sequence
 {
 
   size_t m_size; // kol-vo elementov
@@ -9,14 +12,15 @@ class SequenceContainer
   T *m_region{}; // ukazatel na pervii element
 
 public:
-  SequenceContainer() : m_size{0}, m_cap{0}, m_region{nullptr} // def const
+  Sequence() : m_size{0}, m_cap{0}, m_region{nullptr} // def const
   {
-    std::cout << "SequenceContainer constructor" << std::endl;
+    std::cout <<termcolor::green
+    << "##### Sequence constructor #####"
+    <<termcolor::white << std::endl;
   }
-
-  SequenceContainer(const SequenceContainer &other)
+  Sequence(const Sequence &other)
   {
-    std::cout << "SequenceContainer copy constructor" << std::endl;
+    std::cout << "Sequence copy constructor" << std::endl;
     if (other.m_region != nullptr)
     {
       m_region = new T[other.m_cap];
@@ -30,8 +34,7 @@ public:
       m_size = other.m_size;
     }
   }
-
-  SequenceContainer(SequenceContainer &&other)
+  Sequence(Sequence &&other)
   {
     m_cap = other.m_cap;
     other.m_cap = 0;
@@ -41,20 +44,19 @@ public:
 
     m_region = other.m_region;
     other.m_region = nullptr;
-    std::cout << "SequenceContainer move constructor" << std::endl;
+    std::cout << "Sequence move constructor" << std::endl;
   }
-
-  ~SequenceContainer()
+  ~Sequence()
   {
     delete[] m_region;
-    std::cout << "SequenceContainer destructor" << std::endl;
+    std::cout << "Sequence destructor" << std::endl;
     return;
   }
 
-  SequenceContainer &operator=(const SequenceContainer &rhs)
+  Sequence &operator=(const Sequence &rhs)
   {
-    std::cout << "SequenceContainer::operator=" << std::endl;
-    SequenceContainer temp{rhs};
+    std::cout << "Sequence::operator=" << std::endl;
+    Sequence temp{rhs};
     if ((this != &temp) && (temp.m_region != nullptr))
     {
       clr();
@@ -74,18 +76,17 @@ public:
 
     return *this;
   }
-
-  SequenceContainer &operator=(SequenceContainer &&rhs)
+  Sequence &operator=(Sequence &&rhs)
   {
-    std::cout << "&&SequenceContainer::operator=" << std::endl;
-    SequenceContainer temp{std::move(rhs)};
+    std::cout << "&&Sequence::operator=" << std::endl;
+    Sequence temp{std::move(rhs)};
     return *this = temp;
   }
 
   size_t size() const { return m_size; }
   size_t capacity() const { return m_cap; }
 
-  bool push_back(const T &val)
+  bool push_back(T &val)
   {
     if (m_size < m_cap)
     {
@@ -117,13 +118,12 @@ public:
     {
       for (size_t i = 0; i < m_size; ++i)
       {
-        m_region[i].~T(); 
+        m_region[i].~T();
       }
 
       delete[] m_region;
       m_region = nullptr;
     }
-
     m_cap = 0;
     m_size = 0;
   }
@@ -178,7 +178,6 @@ public:
 
     return true;
   }
-
   bool is_empty() const
   {
     if (m_size == 0)
@@ -194,7 +193,7 @@ public:
 
   struct Iterator
   {
-    Iterator(const size_t index, SequenceContainer &container)
+    Iterator(const size_t index, Sequence &container)
         : m_index(index), m_cont(&container) {}
 
     explicit Iterator(const size_t size) : m_index(size) {}
@@ -220,7 +219,7 @@ public:
 
   private:
     size_t m_index = 0;
-    SequenceContainer *m_cont = nullptr;
+    Sequence *m_cont = nullptr;
   };
 
   Iterator begin() { return Iterator{0, *this}; }

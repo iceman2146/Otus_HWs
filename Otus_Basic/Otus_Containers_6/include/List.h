@@ -1,7 +1,10 @@
+#include <iostream>
+#include <cstdint>
+#include "termcolor.hpp"
 #pragma once
 
 template <typename T>
-class TwoWayContainer
+class List
 {
     struct Node
     {
@@ -12,42 +15,48 @@ class TwoWayContainer
     size_t m_size;
     Node *m_first;
     Node *m_last;
-    
 
 public:
-    TwoWayContainer() : m_size{0}, m_first{nullptr}, m_last{nullptr} 
-    { std::cout << "TwoWayContainer constructor" << std::endl; }
-
-    TwoWayContainer(const TwoWayContainer &other)
+    List() : m_size{0}, m_first{nullptr}, m_last{nullptr}
     {
-        std::cout << "TwoWayContainer copy constructor" << std::endl;
-        if (other.m_first != nullptr) {
-			
-			
-			Node* other_ptr_toCopy = other.m_first;
-			Node* otherPtrTemp = nullptr;
-
-			while (other_ptr_toCopy != nullptr) {
-				otherPtrTemp = new Node(other_ptr_toCopy->data);
-
-				if (m_first == nullptr) {
-					m_first = otherPtrTemp;
-					m_last = otherPtrTemp;
-				}
-				else { 
-					otherPtrTemp->previous = m_last;
-					m_last->next = otherPtrTemp;
-					m_last = otherPtrTemp;
-				}
-
-				other_ptr_toCopy = other_ptr_toCopy->next;
-			}
-
-			m_size = other.m_size;
-		}
+        std::cout <<termcolor::green
+        << "##### List constructor #####"
+        << termcolor::white << std::endl;
     }
 
-    TwoWayContainer(TwoWayContainer &&other) 
+    List(const List &other)
+    {
+        std::cout << "List copy constructor" << std::endl;
+        if (other.m_first != nullptr)
+        {
+
+            Node *other_ptr_toCopy = other.m_first;
+            Node *otherPtrTemp = nullptr;
+
+            while (other_ptr_toCopy != nullptr)
+            {
+                otherPtrTemp = new Node(other_ptr_toCopy->data);
+
+                if (m_first == nullptr)
+                {
+                    m_first = otherPtrTemp;
+                    m_last = otherPtrTemp;
+                }
+                else
+                {
+                    otherPtrTemp->previous = m_last;
+                    m_last->next = otherPtrTemp;
+                    m_last = otherPtrTemp;
+                }
+
+                other_ptr_toCopy = other_ptr_toCopy->next;
+            }
+
+            m_size = other.m_size;
+        }
+    }
+
+    List(List &&other)
     {
         m_first = other.m_first;
         other.m_first = nullptr;
@@ -55,20 +64,20 @@ public:
         other.m_last = nullptr;
         m_size = other.m_size;
         m_size = 0;
-        std::cout << "TwoWayContainer move constructor" << std::endl;
+        std::cout << "List move constructor" << std::endl;
     }
 
-    ~TwoWayContainer()
+    ~List()
     {
         delete[] m_first;
         delete[] m_last;
-        std::cout << "TwoWayContainer Destructor" << std::endl;
+        std::cout << "List Destructor" << std::endl;
     }
 
-    TwoWayContainer &operator=(const TwoWayContainer &rhs)
+    List &operator=(const List &rhs)
     {
-      
-        TwoWayContainer temp{rhs};
+
+        List temp{rhs};
         Node *last = m_last;
         m_last = temp.m_last;
         temp.m_last = last;
@@ -84,10 +93,10 @@ public:
         return *this;
     }
 
-    TwoWayContainer &operator=(TwoWayContainer &&other)
+    List &operator=(List &&other)
     {
-       
-        TwoWayContainer temp{std::move(other)};
+
+        List temp{std::move(other)};
         return *this = temp;
     }
     const T operator[](size_t index) const

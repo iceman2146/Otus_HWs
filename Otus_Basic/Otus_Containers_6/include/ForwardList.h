@@ -1,27 +1,32 @@
+#include <iostream>
+#include <cstdint>
+#include "termcolor.hpp"
 #pragma once
 
 template <typename T>
-class OneWayContainer
+class ForwardList
 {
     struct Node
     {
-        Node *next; // ukazatel na sleduushuu nodu
-        T data;     // kakieto dannie
+        Node *next; 
+        T data;     
         Node() : next{nullptr} {}
         Node(const T &value) : next{nullptr}, data{value} {}
     };
 
-    size_t m_size; // kol-vo nod
-    Node *m_first; // ukazatel na pervuu nodu
-    Node *m_last;  // ukazatel na poslednuu nodu
+    size_t m_size; 
+    Node *m_first; 
+    Node *m_last;  
 
 public:
-    OneWayContainer() : m_size{0}, m_first{nullptr}, m_last{nullptr}
+    ForwardList() : m_size{0}, m_first{nullptr}, m_last{nullptr}
     {
-        std::cout << "OneWayContainer constructor" << std::endl;
+        std::cout <<termcolor::green
+        <<"##### ForwardList constructor #####"
+        <<termcolor::white<< std::endl;
     }
 
-    OneWayContainer(const OneWayContainer &other)
+    ForwardList(const ForwardList &other)
     {
         if (other.m_first != nullptr)
         {
@@ -49,10 +54,10 @@ public:
 
             m_size = other.m_size;
         }
-        std::cout << "OneWayContainer copy constructor" << std::endl;
+        std::cout << "ForwardList copy constructor" << std::endl;
     }
 
-    OneWayContainer(OneWayContainer &&other)
+    ForwardList(ForwardList &&other)
     {
         m_first = other.m_first;
         other.m_first = nullptr;
@@ -62,19 +67,19 @@ public:
 
         m_size = other.m_size;
         m_size = 0;
-        std::cout << "OneWayContainer move constructor" << std::endl;
+        std::cout << "ForwardList move constructor" << std::endl;
     }
 
-    ~OneWayContainer()
+    ~ForwardList()
     {
         delete[] m_first;
         delete[] m_last;
-        std::cout << " OneWayContainer destructor" << std::endl;
+        std::cout << " ForwardList destructor" << std::endl;
     }
 
-    OneWayContainer &operator=(const OneWayContainer &rhs)
+    ForwardList &operator=(const ForwardList &rhs)
     {
-        OneWayContainer temp{rhs};
+        ForwardList temp{rhs};
         Node *last = m_last;
         m_last = temp.m_last;
         temp.m_last = last;
@@ -90,9 +95,9 @@ public:
         return *this;
     }
 
-    OneWayContainer &operator=(OneWayContainer &&other)
+    ForwardList &operator=(ForwardList &&other)
     {
-        OneWayContainer temp{std::move(other)};
+        ForwardList temp{std::move(other)};
         return *this = temp;
     }
     const T operator[](size_t index) const
