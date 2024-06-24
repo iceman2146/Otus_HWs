@@ -34,10 +34,10 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
 
 configure_file(version.h.in version.h)
 
-add_library(ip_lib src/ip_lib.cpp src/ip_lib.h)
+add_library(ip_lib src/ip_lib.cpp include/ip_lib.h)
 
-add_executable(main src/ip_filter.cpp)
-
+add_executable(main src/main.cpp)
+target_include_directories(main PRIVATE include)
 
 set_target_properties(main ip_lib PROPERTIES
   CXX_STANDARD 17
